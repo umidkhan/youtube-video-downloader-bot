@@ -8,7 +8,7 @@ const bot = new Bot(botToken);
 
 bot.command("start", (ctx) => {
   ctx.reply(
-    `Welcome to the bot ${ctx.from.first_name} 👋\nSend the video link you want to download`,
+    `Welcome to the bot ${ctx.from.first_name} 👋\nI'm bot that downloads videos from Youtube\nSend the video link you want to download`,
     {
       parse_mode: "Markdown",
     }
@@ -72,6 +72,15 @@ bot.on("callback_query:data", async (ctx) => {
               ctx.reply("Error");
             };
           });
+          setTimeout(() => {
+            fs.unlink(outputFilePath, (err) => {
+              if (err) {
+                throw err;
+              } else {
+                console.log("File succesfully deleted");
+              }
+            });
+          }, 300000);
         })
         .catch((err) => {
           console.log(err),
@@ -100,7 +109,7 @@ bot.on("callback_query:data", async (ctx) => {
           ytdl.downloadFromInfo(info, { format: format }).pipe(outputStream);
           outputStream.on("finish", () => {
             console.log(`Finished downloading: ${outputFilePath}`);
-            ctx.api.deleteMessage(chatId, messageId + 1);
+            // ctx.api.deleteMessage(chatId, messageId + 1);
             ctx.api.sendAudio(
               chatId,
               new InputFile(fs.createReadStream(outputFilePath)),
@@ -116,6 +125,15 @@ bot.on("callback_query:data", async (ctx) => {
               ctx.reply("Error");
             };
           });
+          setTimeout(() => {
+            fs.unlink(outputFilePath, (err) => {
+              if (err) {
+                throw err;
+              } else {
+                console.log("File succesfully deleted!");
+              }
+            });
+          }, 700000);
         })
         .catch((err) => {
           console.log(err),
