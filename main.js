@@ -63,7 +63,7 @@ bot.on("callback_query:data", async (ctx) => {
                 caption: `[This video downloaded](${videoLink}) by *@save_youtb_bot*`,
                 parse_mode: "Markdown",
                 duration: info.videoDetails.lengthSeconds,
-                thumbnail: info.videoDetails.thumbnails[4].url,
+                // thumbnail: info.videoDetails.thumbnails[4].url,
                 width: info.videoDetails.embed.width,
                 height: info.videoDetails.embed.height,
               }
@@ -72,20 +72,10 @@ bot.on("callback_query:data", async (ctx) => {
               ctx.reply("Error");
             };
           });
-          setTimeout(() => {
-            fs.unlink(outputFilePath, (err) => {
-              if (err) {
-                throw err;
-              } else {
-                console.log("File succesfully deleted");
-              }
-            });
-          }, 300000);
         })
         .catch((err) => {
           console.log(err),
             ctx.api.deleteMessage(chatId, messageId + 1),
-            // ctx.api.deleteMessage(chatId, messageId + 2),
             ctx.reply(
               "You're sended invalid link❌\nPlease check link and try again"
             );
@@ -125,15 +115,6 @@ bot.on("callback_query:data", async (ctx) => {
               ctx.reply("Error");
             };
           });
-          setTimeout(() => {
-            fs.unlink(outputFilePath, (err) => {
-              if (err) {
-                throw err;
-              } else {
-                console.log("File succesfully deleted!");
-              }
-            });
-          }, 700000);
         })
         .catch((err) => {
           console.log(err),
